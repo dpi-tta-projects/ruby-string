@@ -1,0 +1,14 @@
+{
+  "name": "static-html-template-container",
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "forwardPorts": [
+    3000
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens"
+      ]
+    }
+  }
+}
