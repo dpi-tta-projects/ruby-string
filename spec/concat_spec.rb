@@ -5,6 +5,10 @@ RSpec.describe "concat.rb" do
   it "concatenates two words with a space", points: 2 do
     stdout, stderr, status = Open3.capture3("ruby concat.rb", stdin_data: "Hello\nWorld\n")
     expect(status.exitstatus).to eq(0), "Script exited with non-zero status: #{stderr}"
+
+    # Normalize the output for both puts, pp, p, print
+    stdout.gsub!("\"", "")
+
     expect(stdout.strip).to eq("Hello World")
   end
 

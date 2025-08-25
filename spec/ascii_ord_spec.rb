@@ -13,6 +13,6 @@ RSpec.describe "ascii_ord.rb" do
     expect(src).to match(/\bord\b/), "Use .ord to get the character code."
     # Guard against using an external mapping or case/when table
     expect(src).not_to match(/case\s|\bwhen\b|\bhsh\s*=\s*\{/),
-      "Don’t hardcode a mapping; use .ord."
+      "Don't hardcode a mapping; use .ord."
   end
 end
