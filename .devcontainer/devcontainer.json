@@ -1,6 +1,6 @@
 {
-  "name": "static-html-template-container",
-  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "name": "grade-runner-project-template-container",
+  "image": "mcr.microsoft.com/devcontainers/ruby:3.4", 
   "forwardPorts": [
     3000
   ],
@@ -10,5 +10,6 @@
         "eamodio.gitlens"
       ]
     }
-  }
+  },
+  "postCreateCommand": "bin/setup"
 }
