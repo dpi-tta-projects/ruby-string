@@ -1,27 +1,23 @@
 # spec/gsub_digits_spec.rb
-require 'open3'
 
 RSpec.describe "gsub_digits.rb" do
-  it "replaces all digits with '#'", points: 2 do
-    stdout, stderr, status = Open3.capture3("ruby gsub_digits.rb", stdin_data: "I have 3 cats and 2 dogs.\n")
+  describe "output" do
+    it "replaces all digits with '#'" do
+      output = run_script_and_capture_lines("gsub_digits.rb", stdin_data: "I have 3 cats and 2 dogs.\n")
 
-    # Normalize the output for both puts, pp, p, print
-    stdout.gsub!("\"", "")
-
-    expect(status.exitstatus).to eq(0), "Script exited with non-zero status: #{stderr}"
-    expect(stdout.strip).to eq("I have # cats and # dogs.")
+      expect(output).to eq(["I have # cats and # dogs."])
+    end
   end
 
-  it "uses gsub with a regex literal (e.g., /\\d/)", points: 1 do
-    src = File.read("gsub_digits.rb")
+  describe "code" do
+    let(:source_code) { strip_comments(File.read("gsub_digits.rb")) }
 
-    # Remove prompt comments (lines starting with optional whitespace and `#`)
-    src = src.lines.reject { |line| line.strip.start_with?("#") }.join
-
-    expect(src).to match(/\.gsub!?\s*\(/), "Use gsub (bang or non-bang)."
-    expect(src).to match(/gsub!?\(\s*\/.+\/\s*,\s*["']#["']\s*\)/),
-      "Use a regex literal with gsub (bang or non-bang), e.g. gsub(/\\d/, '#')."
-    expect(src).not_to match(/gsub!?\(\s*["']/),
-      "Don't use a plain string as the first gsub arg—use a regex."
+    it "uses gsub with a regex literal (e.g., /\\d/)" do
+      expect(source_code).to match(/\.gsub!?\s*\(/), "Use gsub (bang or non-bang)."
+      expect(source_code).to match(/gsub!?\(\s*\/.+\/\s*,\s*["']#["']\s*\)/),
+        "Use a regex literal with gsub (bang or non-bang), e.g. gsub(/\\d/, '#')."
+      expect(source_code).not_to match(/gsub!?\(\s*["']/),
+        "Don't use a plain string as the first gsub arg—use a regex."
+    end
   end
 end

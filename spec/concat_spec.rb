@@ -1,21 +1,20 @@
 # spec/concat_spec.rb
-require 'open3'
 
 RSpec.describe "concat.rb" do
-  it "concatenates two words with a space", points: 2 do
-    stdout, stderr, status = Open3.capture3("ruby concat.rb", stdin_data: "Hello\nWorld\n")
-    expect(status.exitstatus).to eq(0), "Script exited with non-zero status: #{stderr}"
+  describe "output" do
+    it "concatenates two words with a space" do
+      output = run_script_and_capture_lines("concat.rb", stdin_data: "Hello\nWorld\n")
 
-    # Normalize the output for both puts, pp, p, print
-    stdout.gsub!("\"", "")
-
-    expect(stdout.strip).to eq("Hello World")
+      expect(output).to eq(["Hello World"])
+    end
   end
 
-  it "uses the shovel operator (<<) instead of +", points: 1 do
-    src = File.read("concat.rb")
-    expect(src).to match(/<<\s*["']?\s* /), "Use << to append a space and the second word."
-    expect(src).not_to match(/\+\s*["']?\s* /),
-      "Avoid + for concatenation in this exercise; prefer <<."
+  describe "code" do
+    let(:source_code) { strip_comments(File.read("concat.rb")) }
+
+    it "uses the shovel operator (<<) instead of +" do
+      expect(source_code).to match(/<<\s*["']?\s* /),     "Use << to append a space and the second word."
+      expect(source_code).not_to match(/\+\s*["']?\s* /), "Avoid + for concatenation in this exercise; prefer <<."
+    end
   end
 end
